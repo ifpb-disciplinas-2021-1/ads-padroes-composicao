@@ -17,5 +17,8 @@ public class Produto {
     public double valor(){
         return this.valor;
     }
+    public String descricao(){
+        return this.descricao;
+    }
 
 }
