@@ -2,9 +2,14 @@ package br.edu.ifpb.domain;
 
 import br.edu.ifpb.composite.ItemDeVenda;
 import br.edu.ifpb.strategy.Retirada;
+
+import javax.swing.text.html.HTML;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
+import java.util.stream.Stream;
 
 /**
  * @author Ricardo Job
@@ -22,22 +27,26 @@ public abstract class Compra {
     public Compra() {
         this(new Retirada());
     }
+
     //ctor principal
     public Compra(Entrega entrega) {
         Objects.requireNonNull(entrega,"Não podemos criar uma compra sem uma entrega");
         this.entrega = entrega;
     }
 //    Compra compra; // Composição recursiva
+
     public void adicionar(int quantidade,Produto produto) {
-            adicionar(new ItemDeVenda(
-                quantidade,produto
-            ));
+        adicionar(new ItemDeVenda(
+            quantidade,produto
+        ));
     }
+
     public void adicionar(Item item) {
         if (!itens.contains(item)) {
             itens.add(item);
         }
     }
+
     public String concluir() {
         double taxa = this.entrega.calcularTaxa(this); //hook methods - > hook classes
         double valorTotal = this.valorTotal() + taxa;
@@ -59,17 +68,16 @@ public abstract class Compra {
     public void addNotificador(Notificacao notificacao) {
         this.notificacoes.add(notificacao);
     }
-    
+
     public double valorTotal() {
         return itens.stream()
             .mapToDouble(Item::subTotal)
             .sum();
     }
+
     public double calculaTaxa() {
         return this.entrega.calcularTaxa(this);
     }
-
-
     /*
     <compra>
         <item quantidade= "">
@@ -78,39 +86,25 @@ public abstract class Compra {
     </compra>
     */
     public String emXml(){
-        StringBuffer stringBuffer = new StringBuffer();
-        stringBuffer.append("<compra>");
+        TagXML tag = new TagXML("compra");
         for(Item item:itens){
-            itemNoXML(stringBuffer, item);
+            itemNoXML(tag, item);
         }
-        stringBuffer.append("</compra>");
-        return stringBuffer.toString();
+        return tag.toString();
     }
-
-    private void itemNoXML(StringBuffer stringBuffer, Item item) {
-        stringBuffer.append("<item quantidade = \"");
-        stringBuffer.append(item.quantidade());
-        stringBuffer.append("\" >");
+    private void itemNoXML(TagXML parent, Item item) {
+        TagXML tag = new TagXML("item");
+        tag.addAttribute("quantidade", String.valueOf(item.quantidade()));
         for(Produto produto:item.produtos()){
-            produtoNoXML(stringBuffer, produto);
+            produtoNoXML(tag, produto);
         }
-        stringBuffer.append("</item>");
+        parent.addTag(tag);
     }
-    private void produtoNoXML(StringBuffer stringBuffer, Produto produto) {
-        stringBuffer.append("<produto descricao = \"");
-        stringBuffer.append(produto.descricao());
-        stringBuffer.append("\" >");
-        stringBuffer.append(produto.valor());
-        stringBuffer.append("</produto>");
-
-        /*
-        <name atributtes>
-            value
-        </name>
-         */
-
+    private void produtoNoXML(TagXML parent, Produto produto) {
+        TagXML tagXML = new TagXML("produto");
+        tagXML.addAttribute("descricao", produto.descricao());
+        tagXML.value(String.valueOf(produto.valor()));
+        parent.addTag(tagXML);
     }
-
-
 
 }
