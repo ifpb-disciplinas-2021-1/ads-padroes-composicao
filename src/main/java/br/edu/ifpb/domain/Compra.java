@@ -13,7 +13,7 @@ import java.util.Objects;
 // Source
 public abstract class Compra {
 
-    private final List<ItemDeVenda> itens = new ArrayList<>();
+    private final List<Item> itens = new ArrayList<>();
     private final Entrega entrega;
     private final List<Notificacao> notificacoes = new ArrayList<>();
 //    private String status; // CRIADA, EM_PROCESSAMENTO, CONCLUIDA -> State
@@ -21,38 +21,21 @@ public abstract class Compra {
     public Compra() {
         this(new Retirada());
     }
+
     //ctor principal
     public Compra(Entrega entrega) {
         Objects.requireNonNull(entrega,"Não podemos criar uma compra sem uma entrega");
         this.entrega = entrega;
     }
 
-    public void adicionar(int quantidade,Produto produto) {
-//        if ("CRIADA".equals(status)) {
-            ItemDeVenda item = new ItemDeVenda(
-                quantidade,produto
-            );
-            if (!itens.contains(item)) {
-                itens.add(item);
-            }
-//        }
+    public void adicionar(Item item) {
+//        ItemDeVenda item = new ItemDeVenda(
+//            quantidade,produto
+//        );
+        if (!itens.contains(item)) {
+            itens.add(item);
+        }
     }
-//    public String processar() {
-        //        if(status.equals("CRIADA")){
-//            double taxa = this.entrega.calcularTaxa(this); //hook methods - > hook classes
-//            double valorTotal = this.valorTotal() + taxa;
-//            String codigoPagamento = pagamento().pagar(valorTotal); //hook methods 
-//        return codigoPagamento;
-//        }
-//        if(status.equals("CONCLUIDA")){
-//            return status;
-//        }
-//        if(entrega ==null) { // Null Object
-//            String codigoPagamento = pagamento().pagar(this.valorTotal()); //hook methods 
-//            return codigoPagamento;
-//        }
-//        return "";
-//    }
     public String concluir() {
         double taxa = this.entrega.calcularTaxa(this); //hook methods - > hook classes
         double valorTotal = this.valorTotal() + taxa;
@@ -74,17 +57,15 @@ public abstract class Compra {
     public void addNotificador(Notificacao notificacao) {
         this.notificacoes.add(notificacao);
     }
-    
+
     public double valorTotal() {
         return itens.stream()
-            .mapToDouble(ItemDeVenda::subTotal)
+            .mapToDouble(Item::subTotal)
             .sum();
     }
+
     public double calculaTaxa() {
         return this.entrega.calcularTaxa(this);
     }
 
-
-
-    
 }

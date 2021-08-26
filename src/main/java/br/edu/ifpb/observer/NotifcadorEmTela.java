@@ -8,6 +8,7 @@ package br.edu.ifpb.observer;
 import br.edu.ifpb.domain.Compra;
 import br.edu.ifpb.bridge.CompraAPrazo;
 import br.edu.ifpb.domain.Entrega;
+import br.edu.ifpb.domain.ItemDeVenda;
 import br.edu.ifpb.domain.Notificacao;
 import br.edu.ifpb.domain.Produto;
 import br.edu.ifpb.strategy.EntregaPorSedex;
@@ -73,8 +74,12 @@ public class NotifcadorEmTela extends javax.swing.JFrame implements Notificacao{
         Entrega entrega = new EntregaPorSedex();
 //        Compra compra = new CompraAPrazoEntregaCorreiros();
         Compra compra = new CompraAPrazo(entrega);
-        compra.adicionar(3, arroz);
-        compra.adicionar(2, leite);
+        compra.adicionar(new ItemDeVenda(
+            3,arroz
+        ));
+        compra.adicionar(new ItemDeVenda(
+            2,leite
+        ));
         compra.addNotificador(new NotificacaoNoConsole()); //adicionando um observador
         compra.addNotificador(this);
 //        compra.addNotificador(new NotificacaoNoConsole()); //adicionando um observador

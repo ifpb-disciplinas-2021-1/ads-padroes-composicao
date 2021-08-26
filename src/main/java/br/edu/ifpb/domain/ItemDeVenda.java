@@ -5,7 +5,7 @@ package br.edu.ifpb.domain;
  * @mail ricardo.job@ifpb.edu.br
  * @since 29/06/2021, 11:00:09
  */
-public class ItemDeVenda {
+public class ItemDeVenda implements Item{
 
     private final Produto produto;
     private final int quantidade;
