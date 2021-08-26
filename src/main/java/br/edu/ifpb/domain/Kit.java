@@ -14,7 +14,7 @@ public class Kit implements Item{
     public Kit(String descricao) {
         this.descricao =descricao;
     }
-    public void adicionar(ItemDeVenda item) {
+    public void adicionar(Item item) {
         this.itens.add(item);
     }
     @Override
