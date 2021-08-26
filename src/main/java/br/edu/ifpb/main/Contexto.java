@@ -26,7 +26,6 @@ public class Contexto {
         compra.adicionar(3, arroz);
         compra.adicionar(2, leite);
         compra.addNotificador(new NotificacaoNoConsole()); //adicionando um observador
-//        compra.addNotificador(new NotificacaoNoConsole()); //adicionando um observador
         String codigo = compra.concluir();  
         System.out.println("codigo = " + codigo);
     }
