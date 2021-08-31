@@ -3,6 +3,7 @@ package br.edu.ifpb.domain;
 import br.edu.ifpb.bridge.CompraAPrazo;
 import br.edu.ifpb.composite.ItemDeVenda;
 import br.edu.ifpb.composite.Kit;
+import br.edu.ifpb.composite.TagXML;
 import br.edu.ifpb.strategy.EntregaPorSedex;
 import org.junit.jupiter.api.Test;
 

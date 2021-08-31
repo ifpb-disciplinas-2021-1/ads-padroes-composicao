@@ -1,15 +1,12 @@
 package br.edu.ifpb.domain;
 
 import br.edu.ifpb.composite.ItemDeVenda;
+import br.edu.ifpb.composite.TagXML;
 import br.edu.ifpb.strategy.Retirada;
 
-import javax.swing.text.html.HTML;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.BinaryOperator;
-import java.util.function.Function;
-import java.util.stream.Stream;
 
 /**
  * @author Ricardo Job

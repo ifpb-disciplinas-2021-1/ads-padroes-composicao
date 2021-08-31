@@ -1,4 +1,4 @@
-package br.edu.ifpb.domain;
+package br.edu.ifpb.composite;
 
 import java.util.ArrayList;
 import java.util.List;
