@@ -1,5 +1,8 @@
 package br.edu.ifpb.main;
 
+import br.edu.ifpb.decorator.PrecoComDesconto;
+import br.edu.ifpb.decorator.PrecoDaCompra;
+import br.edu.ifpb.decorator.PrecoComEntrega;
 import br.edu.ifpb.domain.*;
 import br.edu.ifpb.bridge.CompraAPrazo;
 import br.edu.ifpb.composite.ItemDeVenda;
@@ -38,7 +41,34 @@ public class Contexto {
         );
 //        compra.adicionar(cesta);
         compra.adicionar(kit);
+        System.out.println("compra = " + compra.valorTotal());
+
+        double total= new PrecoComEntrega(
+                        new PrecoComDesconto(
+                            new PrecoDaCompra(compra)
+                            ,compra
+                        )
+                     ).aplicar(compra.valorTotal());
+        System.out.println("total = " + total);
+
+
+
+
+
+
+//        System.out.println(compra.emXml());
+//        Desconto desconto = new Desconto();
+//        desconto.aplicar(compra);
 //        System.out.println("compra = " + compra.valorTotal());
-        System.out.println(compra.emXml());
+
+//        double total =
+//                new CalculadorPreco.PrecoFinal(
+////                    new CalculadorPreco.PrecoComDesconto(
+//                        new CalculadorPreco.PrecoNaCompra()
+////                        , compra
+////                    )
+//                )
+//        .calcular(compra.valorTotal());
+//        System.out.println("compra = " + total);
     }
 }

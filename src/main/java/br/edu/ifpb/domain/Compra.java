@@ -4,6 +4,7 @@ import br.edu.ifpb.composite.ItemDeVenda;
 import br.edu.ifpb.composite.TagXML;
 import br.edu.ifpb.strategy.Retirada;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -20,6 +21,9 @@ public abstract class Compra {
     private final Entrega entrega;
     private final List<Notificacao> notificacoes = new ArrayList<>();
 //    private String status; // CRIADA, EM_PROCESSAMENTO, CONCLUIDA -> State
+    private LocalDate criadaEm = LocalDate.now();
+
+    private double desconto =0;
 
     public Compra() {
         this(new Retirada());
@@ -66,6 +70,7 @@ public abstract class Compra {
         this.notificacoes.add(notificacao);
     }
 
+    // subtotal - desconto + entrega
     public double valorTotal() {
         return itens.stream()
             .mapToDouble(Item::subTotal)
@@ -104,4 +109,13 @@ public abstract class Compra {
         parent.addTag(tagXML);
     }
 
+    public int quantidade() {
+        return this.itens.size();
+    }
+    public void adicionarDesconto(double  desconto) {
+        this.desconto+=desconto;
+    }
+    public boolean naBlackFriday() {
+        return criadaEm.getMonthValue() == 8;
+    }
 }
